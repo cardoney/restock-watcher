@@ -6,5 +6,9 @@
   "banana-ball-box-steelcity": {
     "since": "2026-10-11T17:25:12Z",
     "status": "out_of_stock"
+  },
+  "zz-alert-test": {
+    "since": "2026-10-11T17:27:16Z",
+    "status": "in_stock"
   }
 }
