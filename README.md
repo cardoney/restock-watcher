@@ -22,7 +22,9 @@ Alerts then also arrive as a high-priority push that opens the product page when
 
 ## Adding a store
 
-Edit `watchlist.json` on GitHub and add an item:
+A twice-daily Claude scheduled task searches for new legitimate sellers and adds any Shopify store pages it finds here automatically (commits titled "Add … to watchlist (found by daily search)"). It only adds pages whose title matches the item and whose price is under the ceiling, and it never changes or removes existing items.
+
+To add one yourself, edit `watchlist.json` on GitHub and add an item:
 
 | `type` | Use for | `check_url` |
 |---|---|---|
