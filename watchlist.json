@@ -7,7 +7,7 @@
       "product_url": "https://shop.thesavannahbananas.com/products/banana-ball-2026-collectors-box",
       "type": "shopify",
       "check_url": "https://shop.thesavannahbananas.com/products/banana-ball-2026-collectors-box.js",
-      "max_price": 175,
+      "max_price": 200,
       "enabled": true
     },
     {
@@ -16,7 +16,7 @@
       "product_url": "https://www.steelcitycollectibles.com/i/2026-banana-ball-championship-league--bbcl--baseball-collector&-39;s-box",
       "type": "meta",
       "check_url": "https://www.steelcitycollectibles.com/i/2026-banana-ball-championship-league--bbcl--baseball-collector&-39;s-box",
-      "max_price": 175,
+      "max_price": 200,
       "enabled": true
     },
     {
