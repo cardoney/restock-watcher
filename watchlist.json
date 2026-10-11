@@ -27,6 +27,15 @@
       "check_url": "https://shop.thesavannahbananas.com/products/bananas-2026-player-cards.js",
       "max_price": 25,
       "enabled": false
+    },
+    {
+      "id": "zz-alert-test",
+      "name": "TEST ALERT - pennant (delete me)",
+      "product_url": "https://shop.thesavannahbananas.com/products/banana-bowl-2026-bananas-12-by-30-pennant",
+      "type": "shopify",
+      "check_url": "https://shop.thesavannahbananas.com/products/banana-bowl-2026-bananas-12-by-30-pennant.js",
+      "max_price": 50,
+      "enabled": true
     }
   ]
 }
