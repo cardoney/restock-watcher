@@ -9,7 +9,7 @@ Currently watching:
 
 ## How you get alerted
 
-When an item goes from out of stock to in stock (at or under its `max_price`), the watcher opens a GitHub issue titled **IN STOCK: …** that @mentions you. GitHub sends that to your email and to the GitHub mobile app. The issue closes itself when the item sells out again, and you can close it any time.
+When an item goes from out of stock to in stock (at or under its `max_price`), the watcher opens a GitHub issue titled **IN STOCK: …** that @mentions you and is assigned to you. GitHub sends that to your email and to the GitHub mobile app, as long as you're watching this repo (**Watch → Custom → Issues**) and have notifications for watched repos turned on. The issue closes itself when the item sells out again, and you can close it any time.
 
 You get one alert per restock, not one every 5 minutes. The last known status of each item is kept in `state.json`.
 

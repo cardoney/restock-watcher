@@ -310,7 +310,10 @@ def alert(item: dict, res: dict, dry_run: bool):
         return
     gh_api("POST", "/labels", {"name": "in-stock", "color": "2ea44f",
                                "description": "Restock alert from the watcher"})
-    gh_api("POST", "/issues", {"title": title, "body": body, "labels": ["in-stock"]})
+    payload = {"title": title, "body": body, "labels": ["in-stock"]}
+    if owner:
+        payload["assignees"] = [owner]  # assignment is a second notification path
+    gh_api("POST", "/issues", payload)
 
 
 def close_alert(item: dict, dry_run: bool):
