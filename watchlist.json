@@ -1,0 +1,32 @@
+{
+  "_comment": "Each item is one product page to check. type = shopify (append .js to a Shopify product URL), meta (reads the product:availability meta tag), or jsonld (reads schema.org offers on the page). max_price stops reseller markups from triggering an alert. Set enabled to false to pause an item.",
+  "items": [
+    {
+      "id": "banana-ball-box-official",
+      "name": "Banana Ball 2026 Collector's Box - Savannah Bananas official shop",
+      "product_url": "https://shop.thesavannahbananas.com/products/banana-ball-2026-collectors-box",
+      "type": "shopify",
+      "check_url": "https://shop.thesavannahbananas.com/products/banana-ball-2026-collectors-box.js",
+      "max_price": 175,
+      "enabled": true
+    },
+    {
+      "id": "banana-ball-box-steelcity",
+      "name": "Banana Ball 2026 Collector's Box - Steel City Collectibles",
+      "product_url": "https://www.steelcitycollectibles.com/i/2026-banana-ball-championship-league--bbcl--baseball-collector&-39;s-box",
+      "type": "meta",
+      "check_url": "https://www.steelcitycollectibles.com/i/2026-banana-ball-championship-league--bbcl--baseball-collector&-39;s-box",
+      "max_price": 175,
+      "enabled": true
+    },
+    {
+      "id": "banana-ball-player-cards",
+      "name": "Bananas 2026 Player Cards ($15 set) - Savannah Bananas official shop",
+      "product_url": "https://shop.thesavannahbananas.com/products/bananas-2026-player-cards",
+      "type": "shopify",
+      "check_url": "https://shop.thesavannahbananas.com/products/bananas-2026-player-cards.js",
+      "max_price": 25,
+      "enabled": false
+    }
+  ]
+}

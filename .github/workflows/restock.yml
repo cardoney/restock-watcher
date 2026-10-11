@@ -1,0 +1,39 @@
+name: Restock watch
+
+on:
+  schedule:
+    # Every 5 minutes (GitHub's minimum). Runs can start a few minutes late when GitHub is busy.
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # commit state.json when an item's status changes
+  issues: write     # open/close the in-stock alert issue
+
+concurrency:
+  group: restock-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check stock
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NOTIFY_USER: ${{ github.repository_owner }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python3 watch.py
+
+      - name: Save status changes
+        run: |
+          if [ -n "$(git status --porcelain state.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add state.json
+            git commit -m "Update stock status"
+            git push
+          fi
