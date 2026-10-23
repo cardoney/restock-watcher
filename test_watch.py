@@ -93,6 +93,22 @@ class Logic(unittest.TestCase):
         self.assertEqual(watch.check_item(item, boom)["status"], watch.UNKNOWN)
         self.assertEqual(watch.check_item(item, lambda u: (200, STEEL_IN))["status"], watch.IN)
 
+    def test_health_tracking(self):
+        from datetime import datetime, timezone
+        e = {"status": watch.OUT}
+        self.assertTrue(watch.track_readability(e, watch.UNKNOWN, "2026-10-23T10:00:00Z"))
+        self.assertFalse(watch.track_readability(e, watch.UNKNOWN, "2026-10-23T10:05:00Z"))
+        self.assertEqual(e["unreadable_since"], "2026-10-23T10:00:00Z")  # keeps the first failure time
+        items = [{"id": "a", "name": "A", "product_url": "u"}]
+        state = {"a": e}
+        early = datetime(2026, 10, 23, 11, 0, tzinfo=timezone.utc)
+        late = datetime(2026, 10, 23, 12, 0, tzinfo=timezone.utc)
+        self.assertEqual(watch.unreadable_items(items, state, early), [])
+        self.assertEqual(len(watch.unreadable_items(items, state, late)), 1)
+        self.assertTrue(watch.track_readability(e, watch.OUT, "2026-10-23T12:05:00Z"))
+        self.assertNotIn("unreadable_since", e)
+        self.assertEqual(watch.unreadable_items(items, state, late), [])
+
     def test_watchlist_is_valid(self):
         data = json.loads(watch.WATCHLIST.read_text())
         ids = [i["id"] for i in data["items"]]

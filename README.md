@@ -6,10 +6,10 @@ Currently watching:
 
 | Item | Alert at or under | Stores |
 |---|---|---|
-| Banana Ball 2026 Collector's Box | $200 | Savannah Bananas official shop, Steel City Collectibles |
-| 2026 Topps Finest Baseball Mega Box | $100 | Giant Sports Cards (2 listings), Steel City Collectibles, Midwest Cards, Dave & Adam's |
+| Banana Ball 2026 Collector's Box | $200 | Savannah Bananas official shop |
+| 2026 Topps Finest Baseball Mega Box | $100 | Giant Sports Cards (2 listings), Midwest Cards |
 
-Topps.com, Fanatics, Target, Walmart and Blowout Cards sell the Topps Finest Mega Box at its $69.99 list price but block automated checks, so the twice-daily Claude search covers those.
+Steel City Collectibles and Dave & Adam's block checks from GitHub's servers (their entries are disabled in `watchlist.json`). Topps.com, Fanatics, Target, Walmart and Blowout Cards also block automated checks; those are the stores that sell the Topps Finest Mega Box at its $69.99 list price. The twice-daily Claude search covers all of them.
 
 Changing `watchlist.json` (by hand or by the daily search) triggers a check right away.
 
@@ -49,7 +49,8 @@ Amazon, Target, Walmart, Office Depot, Fanatics, Topps.com and Blowout Cards blo
 
 ## Things to know
 
-- GitHub's 5-minute schedule can start a few minutes late when GitHub is busy.
+- If a store page stays unreadable for 2+ hours, the watcher opens one **Watcher can't read …** issue so a blocked store never fails silently. It closes itself when the page reads again.
+- GitHub treats the 5-minute schedule as best effort. On this repo it ran only every 3–5 hours in October 2026, so without an external trigger, treat this as a check every few hours.
 - GitHub pauses scheduled workflows in a public repo after 60 days with no commits. Status changes commit to `state.json`, which counts, but if it goes quiet, re-enable it under **Actions → Restock watch**.
 - If a store blocks or changes its page, that item shows "couldn't check" in the run summary and never sends a false alert.
 - To stop everything: **Actions → Restock watch → ⋯ → Disable workflow**.

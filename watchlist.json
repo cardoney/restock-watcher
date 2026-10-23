@@ -17,7 +17,8 @@
       "type": "meta",
       "check_url": "https://www.steelcitycollectibles.com/i/2026-banana-ball-championship-league--bbcl--baseball-collector&-39;s-box",
       "max_price": 200,
-      "enabled": true
+      "enabled": false,
+      "note": "Disabled 2026-10-23: store blocks checks from GitHub's servers (HTTP 403). Covered by the twice-daily Claude search instead."
     },
     {
       "id": "banana-ball-player-cards",
@@ -53,7 +54,8 @@
       "type": "meta",
       "check_url": "https://www.steelcitycollectibles.com/i/2026-topps-finest-baseball-mega-box",
       "max_price": 100,
-      "enabled": true
+      "enabled": false,
+      "note": "Disabled 2026-10-23: store blocks checks from GitHub's servers (HTTP 403). Covered by the twice-daily Claude search instead."
     },
     {
       "id": "topps-finest-mega-midwest",
@@ -71,7 +73,8 @@
       "type": "auto",
       "check_url": "https://www.dacardworld.com/sports-cards/2026-topps-finest-baseball-mega-box",
       "max_price": 100,
-      "enabled": true
+      "enabled": false,
+      "note": "Disabled 2026-10-23: store blocks checks from GitHub's servers (HTTP 403). Covered by the twice-daily Claude search instead."
     }
   ]
 }

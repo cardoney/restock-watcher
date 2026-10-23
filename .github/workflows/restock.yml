@@ -2,8 +2,8 @@ name: Restock watch
 
 on:
   schedule:
-    # Every 5 minutes (GitHub's minimum). Runs can start a few minutes late when GitHub is busy.
-    - cron: "*/5 * * * *"
+    # Every 5 minutes, off the busy :00 marks. GitHub still delays or drops scheduled runs on small repos.
+    - cron: "3-58/5 * * * *"
   workflow_dispatch: {}
   push:
     # Check new or changed items right away instead of waiting for the next scheduled run.

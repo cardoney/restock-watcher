@@ -366,9 +366,67 @@ def close_alert(item: dict, dry_run: bool):
     gh_api("PATCH", f"/issues/{n}", {"state": "closed", "state_reason": "completed"})
 
 
+# ---------------------------------------------------------------- health
+# A store that starts blocking the checker would otherwise fail silently, so an
+# item that stays unreadable for HEALTH_HOURS opens one "watcher-health" issue.
+
+HEALTH_HOURS = 2
+HEALTH_MARKER = "<!-- restock-health -->"
+
+
+def track_readability(entry: dict, status: str, stamp: str) -> bool:
+    """Record when an item became unreadable; clear it when it reads again. Returns True if changed."""
+    if status == UNKNOWN:
+        if not entry.get("unreadable_since"):
+            entry["unreadable_since"] = stamp
+            return True
+        return False
+    return entry.pop("unreadable_since", None) is not None
+
+
+def unreadable_items(items: list, state: dict, now: datetime) -> list:
+    out = []
+    for item in items:
+        since = state.get(item["id"], {}).get("unreadable_since")
+        if since:
+            t = datetime.strptime(since, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            if (now - t).total_seconds() >= HEALTH_HOURS * 3600:
+                out.append((item, since))
+    return out
+
+
+def sync_health_issue(broken: list, notes: dict):
+    issues = gh_api("GET", "/issues?state=open&labels=watcher-health&per_page=20") or []
+    issue = next((i for i in issues if HEALTH_MARKER in (i.get("body") or "")), None)
+    if not broken:
+        if issue:
+            gh_api("POST", f"/issues/{issue['number']}/comments", {"body": "All store pages are readable again."})
+            gh_api("PATCH", f"/issues/{issue['number']}", {"state": "closed", "state_reason": "completed"})
+        return
+    lines = "\n".join(f"- **{it['name']}** since {since}: {notes.get(it['id']) or 'no stock info found'} "
+                      f"([page]({it['product_url']}))" for it, since in broken)
+    owner = os.environ.get("NOTIFY_USER", "").strip()
+    body = (f"{HEALTH_MARKER}\n{'@' + owner + ' ' if owner else ''}The watcher can't read "
+            f"{len(broken)} store page(s), so it is NOT checking them:\n\n{lines}\n\n"
+            "Usually the store has started blocking automated checks, or the page moved. "
+            "Fix or replace the item in `watchlist.json`, or set `\"enabled\": false`. "
+            "This issue updates itself and closes when every page is readable again.")
+    if issue:
+        if issue.get("body") != body:
+            gh_api("PATCH", f"/issues/{issue['number']}", {"body": body})
+        return
+    gh_api("POST", "/labels", {"name": "watcher-health", "color": "d93f0b",
+                               "description": "The watcher can't read a store page"})
+    payload = {"title": f"Watcher can't read {len(broken)} store page(s)", "body": body,
+               "labels": ["watcher-health"]}
+    if owner:
+        payload["assignees"] = [owner]
+    gh_api("POST", "/issues", payload)
+
+
 # ---------------------------------------------------------------- main
 
-LABELS = {IN: "IN STOCK", OUT: "out of stock", PRICEY: "in stock but over max price", UNKNOWN: "couldn't check"}
+LABELS ={IN: "IN STOCK", OUT: "out of stock", PRICEY: "in stock but over max price", UNKNOWN: "couldn't check"}
 
 
 def main() -> int:
@@ -378,9 +436,14 @@ def main() -> int:
     changed = False
     rows = []
 
+    now = datetime.now(timezone.utc)
+    stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    notes = {}
+
     for item in items:
         res = check_item(item)
-        prev = state.get(item["id"], {}).get("status")
+        entry = state.get(item["id"], {})
+        prev = entry.get("status")
         store, should_alert, back_out = decide(prev, res["status"])
         price = f"${res['price']:.2f}" if res["price"] else ""
         print(f"[{item['id']}] {LABELS[res['status']]} {price} {res['note']}".rstrip())
@@ -389,13 +452,23 @@ def main() -> int:
         elif back_out:
             close_alert(item, dry_run)
         if store != prev:
-            state[item["id"]] = {"status": store,
-                                 "since": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
+            entry["status"], entry["since"] = store, stamp
             changed = True
+        changed |= track_readability(entry, res["status"], stamp)
+        state[item["id"]] = entry
+        notes[item["id"]] = res["note"]
         rows.append(f"| {item['name']} | {LABELS[res['status']]} | {price} | {res['note']} |")
 
     if changed and not dry_run:
         STATE.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
+
+    broken = unreadable_items(items, state, now)
+    print(f"health: {len(broken)} store page(s) unreadable for {HEALTH_HOURS}+ hours")
+    if not dry_run:
+        try:
+            sync_health_issue(broken, notes)
+        except Exception as e:  # never let the health report break stock checks
+            print(f"  health issue update failed: {e}")
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
