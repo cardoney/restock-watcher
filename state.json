@@ -6,5 +6,25 @@
   "banana-ball-box-steelcity": {
     "since": "2026-10-11T17:25:12Z",
     "status": "out_of_stock"
+  },
+  "topps-finest-mega-dacardworld": {
+    "since": "2026-10-23T18:04:29Z",
+    "status": "out_of_stock"
+  },
+  "topps-finest-mega-giant": {
+    "since": "2026-10-23T18:04:28Z",
+    "status": "in_stock_over_max"
+  },
+  "topps-finest-mega-giant-2": {
+    "since": "2026-10-23T18:04:28Z",
+    "status": "out_of_stock"
+  },
+  "topps-finest-mega-midwest": {
+    "since": "2026-10-23T18:04:29Z",
+    "status": "out_of_stock"
+  },
+  "topps-finest-mega-steelcity": {
+    "since": "2026-10-23T18:04:28Z",
+    "status": "out_of_stock"
   }
 }
