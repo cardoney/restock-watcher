@@ -1,5 +1,5 @@
 {
-  "_comment": "Each item is one product page to check. type = shopify (append .js to a Shopify product URL), meta (reads the product:availability meta tag), or jsonld (reads schema.org offers on the page). max_price stops reseller markups from triggering an alert. Set enabled to false to pause an item.",
+  "_comment": "Each item is one product page to check. type = shopify (append .js to a Shopify product URL), meta (reads the product:availability meta tag), jsonld (reads schema.org offers on the page), microdata (reads itemprop availability), or auto (tries meta, jsonld, then microdata). max_price stops reseller markups from triggering an alert; an in-stock item that drops to or under max_price also alerts. Set enabled to false to pause an item.",
   "items": [
     {
       "id": "banana-ball-box-official",
@@ -27,6 +27,51 @@
       "check_url": "https://shop.thesavannahbananas.com/products/bananas-2026-player-cards.js",
       "max_price": 25,
       "enabled": false
+    },
+    {
+      "id": "topps-finest-mega-giant",
+      "name": "2026 Topps Finest Baseball Mega Box - Giant Sports Cards",
+      "product_url": "https://giantsportscards.com/products/2026-topps-finest-baseball-mega-box",
+      "type": "shopify",
+      "check_url": "https://giantsportscards.com/products/2026-topps-finest-baseball-mega-box.js",
+      "max_price": 100,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-giant-2",
+      "name": "2026 Topps Finest Baseball Mega Box - Giant Sports Cards (second listing)",
+      "product_url": "https://giantsportscards.com/products/2026-topps-finest-baseball-mega-box-2",
+      "type": "shopify",
+      "check_url": "https://giantsportscards.com/products/2026-topps-finest-baseball-mega-box-2.js",
+      "max_price": 100,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-steelcity",
+      "name": "2026 Topps Finest Baseball Mega Box - Steel City Collectibles",
+      "product_url": "https://www.steelcitycollectibles.com/i/2026-topps-finest-baseball-mega-box",
+      "type": "meta",
+      "check_url": "https://www.steelcitycollectibles.com/i/2026-topps-finest-baseball-mega-box",
+      "max_price": 100,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-midwest",
+      "name": "2026 Topps Finest Baseball Mega Box - Midwest Cards",
+      "product_url": "https://www.midwestcards.com/products/2026-topps-finest-baseball-mega-box",
+      "type": "jsonld",
+      "check_url": "https://www.midwestcards.com/products/2026-topps-finest-baseball-mega-box",
+      "max_price": 100,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-dacardworld",
+      "name": "2026 Topps Finest Baseball Mega Box - Dave & Adam's Card World",
+      "product_url": "https://www.dacardworld.com/sports-cards/2026-topps-finest-baseball-mega-box",
+      "type": "auto",
+      "check_url": "https://www.dacardworld.com/sports-cards/2026-topps-finest-baseball-mega-box",
+      "max_price": 100,
+      "enabled": true
     }
   ]
 }

@@ -183,7 +183,44 @@ def parse_jsonld(body: str) -> tuple[bool | None, float | None, str]:
     return None, None, "offers had no recognizable availability"
 
 
-PARSERS = {"shopify": parse_shopify, "meta": parse_meta, "jsonld": parse_jsonld}
+_MICRO_AVAIL_RE = re.compile(
+    r"<[^>]+itemprop=[\"']availability[\"'][^>]*(?:content|href)=[\"']([^\"']+)[\"']"
+    r"|<[^>]+(?:content|href)=[\"']([^\"']+)[\"'][^>]*itemprop=[\"']availability[\"']",
+    re.IGNORECASE,
+)
+_MICRO_PRICE_RE = re.compile(
+    r"<[^>]+itemprop=[\"']price[\"'][^>]*content=[\"']([^\"']+)[\"']"
+    r"|<[^>]+content=[\"']([^\"']+)[\"'][^>]*itemprop=[\"']price[\"']",
+    re.IGNORECASE,
+)
+
+
+def parse_microdata(body: str) -> tuple[bool | None, float | None, str]:
+    """schema.org microdata (itemprop="availability" / itemprop="price")."""
+    m = _MICRO_AVAIL_RE.search(body)
+    if not m:
+        return None, None, "no itemprop availability"
+    avail = _availability_word((m.group(1) or m.group(2)).rsplit("/", 1)[-1])
+    pm = _MICRO_PRICE_RE.search(body)
+    price = _to_price((pm.group(1) or pm.group(2))) if pm else None
+    if avail is None:
+        return None, price, "unrecognized itemprop availability"
+    return avail, price, ""
+
+
+def parse_auto(body: str) -> tuple[bool | None, float | None, str]:
+    """Try every page-based method in turn; use the first that finds a stock status."""
+    notes = []
+    for parser in (parse_meta, parse_jsonld, parse_microdata):
+        avail, price, note = parser(body)
+        if avail is not None:
+            return avail, price, ""
+        notes.append(note)
+    return None, None, "; ".join(n for n in notes if n)
+
+
+PARSERS = {"shopify": parse_shopify, "meta": parse_meta, "jsonld": parse_jsonld,
+           "microdata": parse_microdata, "auto": parse_auto}
 
 
 # ---------------------------------------------------------------- logic

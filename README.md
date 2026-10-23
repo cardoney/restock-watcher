@@ -4,12 +4,18 @@ Checks a short list of product pages every 5 minutes and alerts you the moment o
 
 Currently watching:
 
-- **Banana Ball 2026 Collector's Box** at the Savannah Bananas official shop ($149, Shopify feed)
-- **Banana Ball 2026 Collector's Box** at Steel City Collectibles
+| Item | Alert at or under | Stores |
+|---|---|---|
+| Banana Ball 2026 Collector's Box | $200 | Savannah Bananas official shop, Steel City Collectibles |
+| 2026 Topps Finest Baseball Mega Box | $100 | Giant Sports Cards (2 listings), Steel City Collectibles, Midwest Cards, Dave & Adam's |
+
+Topps.com, Fanatics, Target, Walmart and Blowout Cards sell the Topps Finest Mega Box at its $69.99 list price but block automated checks, so the twice-daily Claude search covers those.
+
+Changing `watchlist.json` (by hand or by the daily search) triggers a check right away.
 
 ## How you get alerted
 
-When an item goes from out of stock to in stock (at or under its `max_price`), the watcher opens a GitHub issue titled **IN STOCK: …** that @mentions you and is assigned to you. GitHub sends that to your email and to the GitHub mobile app, as long as you're watching this repo (**Watch → Custom → Issues**) and have notifications for watched repos turned on. The issue closes itself when the item sells out again, and you can close it any time.
+When an item goes from out of stock to in stock at or under its `max_price`, or an in-stock item's price drops to or under `max_price`, the watcher opens a GitHub issue titled **IN STOCK: …** that @mentions you and is assigned to you. GitHub sends that to your email and to the GitHub mobile app, as long as you're watching this repo (**Watch → Custom → Issues**) and have notifications for watched repos turned on. The issue closes itself when the item sells out again, and you can close it any time.
 
 You get one alert per restock, not one every 5 minutes. The last known status of each item is kept in `state.json`.
 
@@ -30,7 +36,8 @@ To add one yourself, edit `watchlist.json` on GitHub and add an item:
 |---|---|---|
 | `shopify` | Shopify stores (most indie toy and card shops) | the product URL with `.js` on the end |
 | `meta` | Pages with a `product:availability` meta tag (Steel City) | the product page |
-| `jsonld` | Pages with schema.org product data | the product page |
+| `jsonld` | Pages with schema.org product data (Midwest Cards) | the product page |
+| `auto` | Any other store page: tries meta, schema.org, then microdata | the product page |
 
 Quick Shopify test: open `https://store.com/products/some-product.js` in a browser. If you see product data with `"available": false/true`, it works.
 
@@ -38,7 +45,7 @@ Set `max_price` so reseller markups don't trigger an alert. Set `"enabled": fals
 
 ## What it can't watch
 
-Amazon, Target, Walmart and Office Depot block automated checks from GitHub's servers, and Schylling's own store sits behind a bot check. For those, rely on Amazon's invite, TrackaLacker alerts, and the daily Claude search.
+Amazon, Target, Walmart, Office Depot, Fanatics, Topps.com and Blowout Cards block automated checks from GitHub's servers, and Schylling's own store sits behind a bot check. For those, rely on TrackaLacker alerts, Amazon's invite, and the twice-daily Claude search.
 
 ## Things to know
 

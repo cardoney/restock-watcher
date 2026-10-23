@@ -5,6 +5,10 @@ on:
     # Every 5 minutes (GitHub's minimum). Runs can start a few minutes late when GitHub is busy.
     - cron: "*/5 * * * *"
   workflow_dispatch: {}
+  push:
+    # Check new or changed items right away instead of waiting for the next scheduled run.
+    branches: [main]
+    paths: [watchlist.json, watch.py]
 
 permissions:
   contents: write   # commit state.json when an item's status changes

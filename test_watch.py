@@ -36,8 +36,35 @@ class Parsers(unittest.TestCase):
         self.assertEqual(watch.parse_jsonld(LD_PRE)[:2], (True, 34.99))
         self.assertIsNone(watch.parse_jsonld("<html></html>")[0])
 
+    def test_jsonld_bigcommerce_shape(self):
+        # Midwest Cards (BigCommerce) real offer shape
+        page = ('<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product",'
+                '"name":"2026 Topps Finest Baseball Mega Box","offers":{"@type":"Offer","sku":"26TOBF-MB(B)",'
+                '"price":"154.95","priceCurrency":"USD","availability":"https://schema.org/OutOfStock"}}</script>'
+                '<script type="application/ld+json">{"@type":"BreadcrumbList","itemListElement":'
+                '[{"@type":"ListItem","position":1,"name":"Baseball Cards"}]}</script>')
+        self.assertEqual(watch.parse_jsonld(page)[:2], (False, 154.95))
+        self.assertEqual(watch.parse_jsonld(page.replace("OutOfStock", "InStock"))[:2], (True, 154.95))
+
+    def test_microdata(self):
+        page = '<link itemprop="availability" href="https://schema.org/InStock"><meta itemprop="price" content="99.99">'
+        self.assertEqual(watch.parse_microdata(page)[:2], (True, 99.99))
+        self.assertEqual(watch.parse_microdata(page.replace("InStock", "OutOfStock"))[0], False)
+        self.assertIsNone(watch.parse_microdata("<html></html>")[0])
+
+    def test_auto_falls_through(self):
+        self.assertEqual(watch.parse_auto(STEEL_IN)[:2], (True, 159.99))
+        self.assertEqual(watch.parse_auto(LD_IN)[:2], (True, 29.99))
+        self.assertEqual(watch.parse_auto('<span itemprop="availability" content="OutOfStock"></span>')[0], False)
+        self.assertIsNone(watch.parse_auto("<html>Add to cart</html>")[0])
+
 
 class Logic(unittest.TestCase):
+    def test_price_drop_on_in_stock_item_alerts(self):
+        # in stock at $149.95 (over $100) -> no alert; then price drops to $99.95 -> alert
+        self.assertEqual(watch.classify(True, 149.95, 100), watch.PRICEY)
+        self.assertEqual(watch.decide(watch.PRICEY, watch.classify(True, 99.95, 100)), (watch.IN, True, False))
+
     def test_classify_price_ceiling(self):
         self.assertEqual(watch.classify(True, 199.0, 175), watch.PRICEY)
         self.assertEqual(watch.classify(True, 149.0, 175), watch.IN)
