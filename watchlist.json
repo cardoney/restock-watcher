@@ -102,6 +102,24 @@
       "check_url": "https://www.candywarehouse.com/products/dum-dums-pops-cream-soda-50-piece-box.js",
       "max_price": 33,
       "enabled": true
+    },
+    {
+      "id": "needoh-calendar-learningexpress-wilmington",
+      "name": "NeeDoh Squishmas Advent Calendar 2026 - Learning Express Wilmington",
+      "product_url": "https://wilmington.learningexpress.com/products/squishmas-advent-calendar-needoh",
+      "type": "shopify",
+      "check_url": "https://wilmington.learningexpress.com/products/squishmas-advent-calendar-needoh.js",
+      "max_price": 45,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-topps",
+      "name": "2026 Topps Finest Baseball Mega Box - Topps.com",
+      "product_url": "https://www.topps.com/products/2026-topps-finest-baseball-mega-box",
+      "type": "shopify",
+      "check_url": "https://www.topps.com/products/2026-topps-finest-baseball-mega-box.js",
+      "max_price": 100,
+      "enabled": true
     }
   ]
 }
