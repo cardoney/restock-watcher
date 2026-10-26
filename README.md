@@ -8,6 +8,7 @@ Currently watching:
 |---|---|---|
 | Banana Ball 2026 Collector's Box | $200 | Savannah Bananas official shop |
 | 2026 Topps Finest Baseball Mega Box | $100 | Giant Sports Cards (2 listings), Midwest Cards |
+| Dum Dums Cream Soda single-flavor bag | $25 | Spangler Candy (official), Village Candy Shop, Candy Warehouse |
 
 Steel City Collectibles and Dave & Adam's block checks from GitHub's servers (their entries are disabled in `watchlist.json`). Topps.com, Fanatics, Target, Walmart and Blowout Cards also block automated checks; those are the stores that sell the Topps Finest Mega Box at its $69.99 list price. The twice-daily Claude search covers all of them.
 

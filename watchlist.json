@@ -75,6 +75,34 @@
       "max_price": 100,
       "enabled": false,
       "note": "Disabled 2026-10-23: store blocks checks from GitHub's servers (HTTP 403). Covered by the twice-daily Claude search instead."
+    },
+    {
+      "id": "dumdums-cream-soda-spangler",
+      "name": "Dum Dums Cream Soda 50-count bag - Spangler Candy (official)",
+      "product_url": "https://spanglercandy.com/products/dum-dums-cream-soda-50-count",
+      "type": "shopify",
+      "check_url": "https://spanglercandy.com/products/dum-dums-cream-soda-50-count.js",
+      "max_price": 25,
+      "enabled": true
+    },
+    {
+      "id": "dumdums-cream-soda-village",
+      "name": "Dum Dums Cream Soda 35-count pouch - Village Candy Shop",
+      "product_url": "https://villagecandyshop.com/product/cream-soda-dum-dums/",
+      "type": "jsonld",
+      "check_url": "https://villagecandyshop.com/product/cream-soda-dum-dums/",
+      "max_price": 25,
+      "enabled": true
+    },
+    {
+      "id": "dumdums-cream-soda-candywarehouse",
+      "name": "Dum Dums Cream Soda 50-piece box - Candy Warehouse",
+      "product_url": "https://www.candywarehouse.com/products/dum-dums-pops-cream-soda-50-piece-box",
+      "type": "shopify",
+      "check_url": "https://www.candywarehouse.com/products/dum-dums-pops-cream-soda-50-piece-box.js",
+      "max_price": 25,
+      "enabled": true,
+      "note": "Listed at $32.50, over the $25 ceiling, so this only alerts if the price drops."
     }
   ]
 }

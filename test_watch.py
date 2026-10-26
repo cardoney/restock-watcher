@@ -46,6 +46,17 @@ class Parsers(unittest.TestCase):
         self.assertEqual(watch.parse_jsonld(page)[:2], (False, 154.95))
         self.assertEqual(watch.parse_jsonld(page.replace("OutOfStock", "InStock"))[:2], (True, 154.95))
 
+    def test_jsonld_woocommerce_shape(self):
+        # Village Candy Shop (WooCommerce) real offer shape: price also nested in priceSpecification
+        page = ('<script type="application/ld+json">{"@context":"https://schema.org/","@graph":['
+                '{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,'
+                '"item":{"name":"Home","@id":"https://villagecandyshop.com"}}]},'
+                '{"@type":"Product","name":"Cream Soda Dum Dums (35 Count)","sku":929,"offers":[{"@type":"Offer",'
+                '"priceSpecification":{"price":"14.95","priceCurrency":"USD","valueAddedTaxIncluded":"false"},'
+                '"availability":"https://schema.org/OutOfStock","price":"14.95","priceCurrency":"USD"}]}]}</script>')
+        self.assertEqual(watch.parse_jsonld(page)[:2], (False, 14.95))
+        self.assertEqual(watch.parse_jsonld(page.replace("OutOfStock", "InStock"))[:2], (True, 14.95))
+
     def test_microdata(self):
         page = '<link itemprop="availability" href="https://schema.org/InStock"><meta itemprop="price" content="99.99">'
         self.assertEqual(watch.parse_microdata(page)[:2], (True, 99.99))
