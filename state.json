@@ -3,29 +3,58 @@
     "since": "2026-10-21T18:02:40Z",
     "status": "out_of_stock"
   },
+  "banana-ball-box-official-search": {
+    "since": "2026-10-26T04:34:08Z",
+    "status": "out_of_stock"
+  },
   "banana-ball-box-steelcity": {
     "since": "2026-10-11T17:25:12Z",
+    "status": "out_of_stock"
+  },
+  "dumdums-cream-soda-candymeup": {
+    "since": "2026-10-26T04:34:08Z",
     "status": "out_of_stock"
   },
   "dumdums-cream-soda-candywarehouse": {
     "since": "2026-10-26T03:54:13Z",
     "status": "out_of_stock"
   },
+  "dumdums-cream-soda-candywarehouse-search": {
+    "since": "2026-10-26T04:34:08Z",
+    "status": "out_of_stock"
+  },
   "dumdums-cream-soda-spangler": {
     "since": "2026-10-26T03:54:13Z",
+    "status": "out_of_stock"
+  },
+  "dumdums-cream-soda-spangler-search": {
+    "since": "2026-10-26T04:34:08Z",
     "status": "out_of_stock"
   },
   "dumdums-cream-soda-village": {
     "since": "2026-10-26T03:54:13Z",
     "status": "out_of_stock"
   },
+  "needoh-calendar-fatbraintoys": {
+    "since": "2026-10-26T04:34:08Z",
+    "status": "out_of_stock"
+  },
   "needoh-calendar-learningexpress-wilmington": {
     "since": "2026-10-26T04:00:49Z",
+    "status": "out_of_stock"
+  },
+  "needoh-calendar-learningexpress-wilmington-search": {
+    "since": "2026-10-26T04:34:08Z",
     "status": "out_of_stock"
   },
   "topps-finest-mega-dacardworld": {
     "since": "2026-10-23T18:04:29Z",
     "status": "out_of_stock"
+  },
+  "topps-finest-mega-gamestop": {
+    "since": "2026-10-26T04:34:08Z",
+    "status": "out_of_stock",
+    "unreadable_since": "2026-10-26T04:34:08Z"
   },
   "topps-finest-mega-giant": {
     "since": "2026-10-23T18:04:28Z",
@@ -33,6 +62,10 @@
   },
   "topps-finest-mega-giant-2": {
     "since": "2026-10-23T18:04:28Z",
+    "status": "out_of_stock"
+  },
+  "topps-finest-mega-giant-search": {
+    "since": "2026-10-26T04:34:08Z",
     "status": "out_of_stock"
   },
   "topps-finest-mega-midwest": {
