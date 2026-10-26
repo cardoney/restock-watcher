@@ -119,7 +119,8 @@
       "type": "shopify",
       "check_url": "https://www.topps.com/products/2026-topps-finest-baseball-mega-box.js",
       "max_price": 100,
-      "enabled": true
+      "enabled": false,
+      "note": "Disabled 2026-10-26: store blocks checks from GitHub's servers. Covered by the twice-daily Claude search instead."
     }
   ]
 }
