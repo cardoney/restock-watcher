@@ -25,7 +25,8 @@
   },
   "dumdums-cream-soda-spangler": {
     "since": "2026-10-26T03:54:13Z",
-    "status": "out_of_stock"
+    "status": "out_of_stock",
+    "unreadable_since": "2026-10-26T23:43:57Z"
   },
   "dumdums-cream-soda-spangler-search": {
     "since": "2026-10-26T04:34:08Z",
@@ -41,7 +42,8 @@
   },
   "needoh-calendar-learningexpress-wilmington": {
     "since": "2026-10-26T04:00:49Z",
-    "status": "out_of_stock"
+    "status": "out_of_stock",
+    "unreadable_since": "2026-10-26T23:43:57Z"
   },
   "needoh-calendar-learningexpress-wilmington-search": {
     "since": "2026-10-26T04:34:08Z",
@@ -58,11 +60,13 @@
   },
   "topps-finest-mega-giant": {
     "since": "2026-10-23T18:04:28Z",
-    "status": "in_stock_over_max"
+    "status": "in_stock_over_max",
+    "unreadable_since": "2026-10-26T23:43:57Z"
   },
   "topps-finest-mega-giant-2": {
     "since": "2026-10-23T18:04:28Z",
-    "status": "out_of_stock"
+    "status": "out_of_stock",
+    "unreadable_since": "2026-10-26T23:43:57Z"
   },
   "topps-finest-mega-giant-search": {
     "since": "2026-10-26T04:34:08Z",
