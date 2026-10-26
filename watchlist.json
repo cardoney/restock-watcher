@@ -138,8 +138,8 @@
       "type": "jsonld",
       "check_url": "https://www.gamestop.com/toys-games/trading-cards/products/2026-topps-finest-mlb-baseball-mega-box/20035590.html",
       "max_price": 100,
-      "enabled": true,
-      "note": "Online stock only. GameStop's page also offers in-store pickup, which this can't see."
+      "enabled": false,
+      "note": "Disabled 2026-10-26: store blocks checks from GitHub's servers. Covered by the twice-daily Claude search instead."
     },
     {
       "id": "dumdums-cream-soda-candymeup",
