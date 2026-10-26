@@ -121,6 +121,87 @@
       "max_price": 100,
       "enabled": false,
       "note": "Disabled 2026-10-26: store blocks checks from GitHub's servers. Covered by the twice-daily Claude search instead."
+    },
+    {
+      "id": "needoh-calendar-fatbraintoys",
+      "name": "NeeDoh Squishmas Advent Calendar 2026 - Fat Brain Toys",
+      "product_url": "https://www.fatbraintoys.com/toy_companies/schylling/needoh_squishmas_advent_calendar.cfm",
+      "type": "jsonld",
+      "check_url": "https://www.fatbraintoys.com/toy_companies/schylling/needoh_squishmas_advent_calendar.cfm",
+      "max_price": 45,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-gamestop",
+      "name": "2026 Topps Finest Baseball Mega Box - GameStop",
+      "product_url": "https://www.gamestop.com/toys-games/trading-cards/products/2026-topps-finest-mlb-baseball-mega-box/20035590.html",
+      "type": "jsonld",
+      "check_url": "https://www.gamestop.com/toys-games/trading-cards/products/2026-topps-finest-mlb-baseball-mega-box/20035590.html",
+      "max_price": 100,
+      "enabled": true,
+      "note": "Online stock only. GameStop's page also offers in-store pickup, which this can't see."
+    },
+    {
+      "id": "dumdums-cream-soda-candymeup",
+      "name": "Dum Dums Cream Soda 75-count bag - Candy Me Up",
+      "product_url": "https://candymeup.com/Dum-Dums-Cream-Soda-75ct-p369175937",
+      "type": "jsonld",
+      "check_url": "https://candymeup.com/Dum-Dums-Cream-Soda-75ct-p369175937",
+      "max_price": 33,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-giant-search",
+      "name": "2026 Topps Finest Baseball Mega Box - Giant Sports Cards (new listings)",
+      "product_url": "https://giantsportscards.com/search?q=%22finest+baseball+mega%22&type=product",
+      "type": "shopify_search",
+      "check_url": "https://giantsportscards.com/search/suggest.json?q=%22finest+baseball+mega%22&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bunavailable_products%5D=last",
+      "match": ["2026", "finest", "baseball", "mega"],
+      "exclude": ["case", "hobby", "delight", "breaker", "first day", "lot"],
+      "max_price": 100,
+      "enabled": true
+    },
+    {
+      "id": "banana-ball-box-official-search",
+      "name": "Banana Ball 2026 Collector's Box - Savannah Bananas official shop (new listings)",
+      "product_url": "https://shop.thesavannahbananas.com/search?q=%22collector%27s+box%22&type=product",
+      "type": "shopify_search",
+      "check_url": "https://shop.thesavannahbananas.com/search/suggest.json?q=%22collector%27s+box%22&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bunavailable_products%5D=last",
+      "match": ["2026", "collector"],
+      "exclude": ["pack", "case"],
+      "max_price": 200,
+      "enabled": true
+    },
+    {
+      "id": "needoh-calendar-learningexpress-wilmington-search",
+      "name": "NeeDoh Squishmas Advent Calendar 2026 - Learning Express Wilmington (new listings)",
+      "product_url": "https://wilmington.learningexpress.com/search?q=%22squishmas+advent%22&type=product",
+      "type": "shopify_search",
+      "check_url": "https://wilmington.learningexpress.com/search/suggest.json?q=%22squishmas+advent%22&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bunavailable_products%5D=last",
+      "match": ["squishmas", "advent"],
+      "exclude": ["2024", "2025"],
+      "max_price": 45,
+      "enabled": true
+    },
+    {
+      "id": "dumdums-cream-soda-spangler-search",
+      "name": "Dum Dums Cream Soda - Spangler Candy (new listings)",
+      "product_url": "https://spanglercandy.com/search?q=%22cream+soda%22&type=product",
+      "type": "shopify_search",
+      "check_url": "https://spanglercandy.com/search/suggest.json?q=%22cream+soda%22&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bunavailable_products%5D=last",
+      "match": ["cream soda"],
+      "max_price": 33,
+      "enabled": true
+    },
+    {
+      "id": "dumdums-cream-soda-candywarehouse-search",
+      "name": "Dum Dums Cream Soda - Candy Warehouse (new listings)",
+      "product_url": "https://www.candywarehouse.com/search?q=%22dum+dums%22+%22cream+soda%22&type=product",
+      "type": "shopify_search",
+      "check_url": "https://www.candywarehouse.com/search/suggest.json?q=%22dum+dums%22+%22cream+soda%22&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bunavailable_products%5D=last",
+      "match": ["dum dums", "cream soda"],
+      "max_price": 33,
+      "enabled": true
     }
   ]
 }

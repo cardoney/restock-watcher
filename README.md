@@ -7,8 +7,11 @@ Currently watching:
 | Item | Alert at or under | Stores |
 |---|---|---|
 | Banana Ball 2026 Collector's Box | $200 | Savannah Bananas official shop |
-| 2026 Topps Finest Baseball Mega Box | $100 | Giant Sports Cards (2 listings), Midwest Cards |
-| Dum Dums Cream Soda single-flavor bag | $33 | Spangler Candy (official), Village Candy Shop, Candy Warehouse |
+| 2026 Topps Finest Baseball Mega Box | $100 | Giant Sports Cards (2 listings), Midwest Cards, GameStop (online only) |
+| NeeDoh Squishmas Advent Calendar 2026 | $45 | Learning Express Wilmington, Fat Brain Toys |
+| Dum Dums Cream Soda single-flavor bag | $33 | Spangler Candy (official), Village Candy Shop, Candy Warehouse, Candy Me Up |
+
+New-listing searches also watch Giant Sports Cards, the Savannah Bananas shop, Learning Express Wilmington, Spangler and Candy Warehouse for the same item turning up under a new listing (see below).
 
 Steel City Collectibles and Dave & Adam's block checks from GitHub's servers (their entries are disabled in `watchlist.json`). Topps.com, Fanatics, Target, Walmart and Blowout Cards also block automated checks; those are the stores that sell the Topps Finest Mega Box at its $69.99 list price. The twice-daily Claude search covers all of them.
 
@@ -39,8 +42,31 @@ To add one yourself, edit `watchlist.json` on GitHub and add an item:
 | `meta` | Pages with a `product:availability` meta tag (Steel City) | the product page |
 | `jsonld` | Pages with schema.org product data (Midwest Cards) | the product page |
 | `auto` | Any other store page: tries meta, schema.org, then microdata | the product page |
+| `shopify_search` | New listings of the item at a Shopify store (see below) | the store's `/search/suggest.json` search |
 
 Quick Shopify test: open `https://store.com/products/some-product.js` in a browser. If you see product data with `"available": false/true`, it works.
+
+### Watching for new listings
+
+Stores sometimes restock under a brand-new listing (Giant Sports Cards' second Topps Finest listing ends in `-2`), which a product-page check never sees. A `shopify_search` item searches the store instead, using Shopify's public predictive search, and alerts when a listing whose title matches is in stock at or under `max_price`. Listings already in `watchlist.json` are skipped, so you never get two alerts for the same page, and the alert links straight to the listing it found.
+
+```json
+{
+  "id": "topps-finest-mega-giant-search",
+  "name": "2026 Topps Finest Baseball Mega Box - Giant Sports Cards (new listings)",
+  "product_url": "https://giantsportscards.com/search?q=%22finest+baseball+mega%22&type=product",
+  "type": "shopify_search",
+  "check_url": "https://giantsportscards.com/search/suggest.json?q=%22finest+baseball+mega%22&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bunavailable_products%5D=last",
+  "match": ["2026", "finest", "baseball", "mega"],
+  "exclude": ["case", "hobby", "delight", "breaker", "first day", "lot"],
+  "max_price": 100,
+  "enabled": true
+}
+```
+
+- Put the search phrase in quotes (`%22...%22`) in `q`; unquoted searches match loosely and can push the real item out of the 10 results.
+- `match`: every word must appear in the listing title. `exclude`: none may (keep hobby boxes, cases and single packs out).
+- Test it by opening the `check_url` in a browser: matching listings show `"available": true/false`.
 
 Set `max_price` so reseller markups don't trigger an alert. Set `"enabled": false` to pause an item.
 

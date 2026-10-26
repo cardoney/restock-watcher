@@ -223,6 +223,59 @@ PARSERS = {"shopify": parse_shopify, "meta": parse_meta, "jsonld": parse_jsonld,
            "microdata": parse_microdata, "auto": parse_auto}
 
 
+# ---------------------------------------------------------------- new-listing search
+# A product-page check can't see a store relisting the same item under a new URL
+# (a "-2" copy, a separate restock listing). Shopify's public predictive search,
+# /search/suggest.json, returns each matching product's title, URL, price and
+# availability, so a shopify_search item searches the store and alerts when a
+# matching listing that isn't already in the watchlist is in stock.
+
+def listing_key(url: str) -> str:
+    """Store host + /products/<handle>, so one listing matches however its URL is written."""
+    m = re.match(r"https?://(?:www\.)?([^/?#]+)([^?#]*)", url.strip().lower())
+    if not m:
+        return url.strip().lower()
+    host, path = m.groups()
+    i = path.find("/products/")
+    return host + (path[i:] if i >= 0 else path).rstrip("/")
+
+
+def parse_shopify_search(body: str, item: dict, watched=frozenset()):
+    """Returns (available, price, note, url) for the cheapest in-stock matching listing not already watched.
+
+    A listing matches when its title contains every word in item["match"] and none in item["exclude"]
+    (case-insensitive).
+    """
+    try:
+        products = json.loads(body)["resources"]["results"]["products"]
+    except (json.JSONDecodeError, KeyError, TypeError):
+        return None, None, "not a Shopify search response", None
+    origin = re.match(r"https?://[^/]+", item["check_url"]).group(0)
+    need = [w.lower() for w in item.get("match", [])]
+    skip = [w.lower() for w in item.get("exclude", [])]
+    found = []
+    for p in products:
+        title = html.unescape(str(p.get("title", "")))
+        low = title.lower()
+        if not need or not all(w in low for w in need) or any(w in low for w in skip):
+            continue
+        url = str(p.get("url", "")).split("?")[0]
+        url = url if url.startswith("http") else origin + url
+        if listing_key(url) in watched:
+            continue
+        found.append((bool(p.get("available")), _to_price(p.get("price")), title, url))
+    if not found:
+        return False, None, "no other matching listings", None
+    in_stock = sorted((f for f in found if f[0]), key=lambda f: (f[1] is None, f[1] or 0.0))
+    if in_stock:
+        _, price, title, url = in_stock[0]
+        return True, price, f"new listing: {title}", url
+    return False, None, f"{len(found)} other matching listing(s), all sold out", None
+
+
+TYPES = set(PARSERS) | {"shopify_search"}
+
+
 # ---------------------------------------------------------------- logic
 
 def classify(available: bool | None, price: float | None, max_price) -> str:
@@ -235,11 +288,12 @@ def classify(available: bool | None, price: float | None, max_price) -> str:
     return IN
 
 
-def check_item(item: dict, fetcher=None) -> dict:
+def check_item(item: dict, fetcher=None, watched=frozenset()) -> dict:
+    """watched: listing_key()s of every product page in the watchlist, used by shopify_search."""
     fetcher = fetcher or fetch
-    result = {"id": item["id"], "status": UNKNOWN, "price": None, "note": ""}
-    parser = PARSERS.get(item.get("type", ""))
-    if parser is None:
+    result = {"id": item["id"], "status": UNKNOWN, "price": None, "note": "", "url": None}
+    kind = item.get("type", "")
+    if kind not in TYPES:
         result["note"] = f"unknown type '{item.get('type')}'"
         return result
     try:
@@ -251,7 +305,10 @@ def check_item(item: dict, fetcher=None) -> dict:
         result["note"] = f"HTTP {code} (site may block automated checks or the page moved)"
         return result
     try:
-        available, price, note = parser(body)
+        if kind == "shopify_search":
+            available, price, note, result["url"] = parse_shopify_search(body, item, watched)
+        else:
+            available, price, note = PARSERS[kind](body)
     except Exception as e:
         result["note"] = f"parse failed: {type(e).__name__}: {e}"[:200]
         return result
@@ -331,10 +388,12 @@ def alert(item: dict, res: dict, dry_run: bool):
     price = f"${res['price']:.2f}" if res["price"] else "price not shown"
     owner = os.environ.get("NOTIFY_USER", "").strip()
     title = f"IN STOCK: {item['name']}"
+    buy = res.get("url") or item["product_url"]  # a new-listing search links straight to the listing it found
+    found = f"Found by searching the store: {res['note']}.\n\n" if res.get("url") else ""
     body = (
         f"{marker(item['id'])}\n"
         f"{'@' + owner + ' ' if owner else ''}**{item['name']}** looks to be in stock ({price}).\n\n"
-        f"**Buy here:** {item['product_url']}\n\n"
+        f"**Buy here:** {buy}\n\n{found}"
         f"Detected {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. "
         f"These usually sell out within minutes. This issue closes itself when the item "
         f"goes out of stock again, and you can close it any time."
@@ -342,7 +401,7 @@ def alert(item: dict, res: dict, dry_run: bool):
     print(f"  ALERT -> {title} ({price})")
     if dry_run:
         return
-    ntfy(title, f"{price} - tap to open", item["product_url"])
+    ntfy(title, f"{price} - tap to open", buy)
     if open_issue_for(item["id"]):
         return
     gh_api("POST", "/labels", {"name": "in-stock", "color": "2ea44f",
@@ -431,7 +490,10 @@ LABELS ={IN: "IN STOCK", OUT: "out of stock", PRICEY: "in stock but over max pri
 
 def main() -> int:
     dry_run = os.environ.get("DRY_RUN") == "1"
-    items = [i for i in json.loads(WATCHLIST.read_text())["items"] if i.get("enabled", True)]
+    all_items = json.loads(WATCHLIST.read_text())["items"]
+    items = [i for i in all_items if i.get("enabled", True)]
+    # Listings already watched (enabled or not) are skipped by new-listing searches, so they never double-alert.
+    watched = frozenset(listing_key(i["product_url"]) for i in all_items if i.get("type") != "shopify_search")
     state = json.loads(STATE.read_text()) if STATE.exists() else {}
     changed = False
     rows = []
@@ -441,7 +503,7 @@ def main() -> int:
     notes = {}
 
     for item in items:
-        res = check_item(item)
+        res = check_item(item, watched=watched)
         entry = state.get(item["id"], {})
         prev = entry.get("status")
         store, should_alert, back_out = decide(prev, res["status"])

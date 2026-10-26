@@ -125,8 +125,62 @@ class Logic(unittest.TestCase):
         ids = [i["id"] for i in data["items"]]
         self.assertEqual(len(ids), len(set(ids)))
         for i in data["items"]:
-            self.assertIn(i["type"], watch.PARSERS)
+            self.assertIn(i["type"], watch.TYPES)
             self.assertTrue(i["check_url"].startswith("https://"))
+            if i["type"] == "shopify_search":
+                self.assertIn("/search/suggest.json?", i["check_url"])
+                self.assertTrue(i.get("match"), f"{i['id']} needs match words or it would match everything")
+
+
+def suggest(*products):
+    """A Shopify /search/suggest.json body; each product is (title, relative url, available, price)."""
+    return json.dumps({"resources": {"results": {"products": [
+        {"title": t, "url": u + "?_pos=1&_sid=abc&_ss=r", "available": a, "price": p} for t, u, a, p in products]}}})
+
+
+class NewListingSearch(unittest.TestCase):
+    ITEM = {"id": "s", "type": "shopify_search", "max_price": 100,
+            "check_url": "https://www.giantsportscards.com/search/suggest.json?q=%22finest+baseball+mega%22",
+            "match": ["2026", "finest", "baseball", "mega"], "exclude": ["case", "hobby"]}
+    WATCHED = frozenset({watch.listing_key("https://giantsportscards.com/products/2026-topps-finest-baseball-mega-box")})
+
+    def test_listing_key_ignores_www_query_and_locale(self):
+        self.assertEqual(watch.listing_key("https://www.Shop.com/en-us/products/Box-2/?x=1"), "shop.com/products/box-2")
+        self.assertEqual(watch.listing_key("https://shop.com/products/box-2"), "shop.com/products/box-2")
+
+    def test_alerts_on_cheapest_in_stock_new_listing(self):
+        body = suggest(
+            ("2026 Topps Finest Baseball Mega Box", "/products/2026-topps-finest-baseball-mega-box", True, "149.95"),
+            ("2026 Topps Finest Baseball Hobby Box", "/products/2026-topps-finest-baseball-hobby-box", True, "819.95"),
+            ("2026 Topps Finest Baseball Mega Box", "/products/2026-topps-finest-baseball-mega-box-3", True, "99.95"),
+            ("2026 Topps Finest Baseball Mega Box", "/products/2026-topps-finest-baseball-mega-box-4", True, "69.99"),
+            ("2026 Topps Finest Baseball Mega Box", "/products/2026-topps-finest-baseball-mega-box-5", False, "59.99"),
+        )
+        avail, price, note, url = watch.parse_shopify_search(body, self.ITEM, self.WATCHED)
+        self.assertEqual((avail, price), (True, 69.99))
+        self.assertEqual(url, "https://www.giantsportscards.com/products/2026-topps-finest-baseball-mega-box-4")
+        self.assertIn("new listing", note)
+
+    def test_already_watched_listing_never_counts(self):
+        body = suggest(("2026 Topps Finest Baseball Mega Box", "/products/2026-topps-finest-baseball-mega-box", True, "69.99"))
+        self.assertEqual(watch.parse_shopify_search(body, self.ITEM, self.WATCHED),
+                         (False, None, "no other matching listings", None))
+
+    def test_new_listings_all_sold_out(self):
+        body = suggest(("2026 Topps Finest Baseball Mega Box", "/products/2026-topps-finest-baseball-mega-box-2", False, "149.95"))
+        avail, price, note, url = watch.parse_shopify_search(body, self.ITEM, self.WATCHED)
+        self.assertEqual((avail, url), (False, None))
+        self.assertIn("all sold out", note)
+
+    def test_not_a_search_response(self):
+        self.assertIsNone(watch.parse_shopify_search("<html>blocked</html>", self.ITEM)[0])
+        self.assertIsNone(watch.parse_shopify_search('{"products": []}', self.ITEM)[0])
+
+    def test_check_item_returns_found_listing(self):
+        body = suggest(("2026 Topps Finest Baseball Mega Box", "/products/2026-topps-finest-baseball-mega-box-2", True, "149.95"))
+        res = watch.check_item(self.ITEM, lambda u: (200, body), self.WATCHED)
+        self.assertEqual(res["status"], watch.PRICEY)  # in stock, but over the $100 ceiling
+        self.assertTrue(res["url"].endswith("/products/2026-topps-finest-baseball-mega-box-2"))
 
 
 if __name__ == "__main__":
