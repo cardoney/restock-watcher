@@ -19,6 +19,10 @@
     "since": "2026-10-26T03:54:13Z",
     "status": "out_of_stock"
   },
+  "needoh-calendar-learningexpress-wilmington": {
+    "since": "2026-10-26T04:00:49Z",
+    "status": "out_of_stock"
+  },
   "topps-finest-mega-dacardworld": {
     "since": "2026-10-23T18:04:29Z",
     "status": "out_of_stock"
@@ -38,5 +42,10 @@
   "topps-finest-mega-steelcity": {
     "since": "2026-10-23T18:04:28Z",
     "status": "out_of_stock"
+  },
+  "topps-finest-mega-topps": {
+    "since": "2026-10-26T04:00:49Z",
+    "status": "out_of_stock",
+    "unreadable_since": "2026-10-26T04:00:49Z"
   }
 }
