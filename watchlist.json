@@ -82,7 +82,7 @@
       "product_url": "https://spanglercandy.com/products/dum-dums-cream-soda-50-count",
       "type": "shopify",
       "check_url": "https://spanglercandy.com/products/dum-dums-cream-soda-50-count.js",
-      "max_price": 25,
+      "max_price": 33,
       "enabled": true
     },
     {
@@ -91,7 +91,7 @@
       "product_url": "https://villagecandyshop.com/product/cream-soda-dum-dums/",
       "type": "jsonld",
       "check_url": "https://villagecandyshop.com/product/cream-soda-dum-dums/",
-      "max_price": 25,
+      "max_price": 33,
       "enabled": true
     },
     {
@@ -100,9 +100,8 @@
       "product_url": "https://www.candywarehouse.com/products/dum-dums-pops-cream-soda-50-piece-box",
       "type": "shopify",
       "check_url": "https://www.candywarehouse.com/products/dum-dums-pops-cream-soda-50-piece-box.js",
-      "max_price": 25,
-      "enabled": true,
-      "note": "Listed at $32.50, over the $25 ceiling, so this only alerts if the price drops."
+      "max_price": 33,
+      "enabled": true
     }
   ]
 }
