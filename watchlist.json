@@ -203,5 +203,42 @@
       "max_price": 33,
       "enabled": true
     }
+    ,
+    {
+      "id": "needoh-calendar-friendsnyc",
+      "name": "NeeDoh Squishmas Advent Calendar 2026 - Friends NYC",
+      "product_url": "https://friendsnyc.com/products/squishmas-2026-advent-calendar",
+      "type": "shopify",
+      "check_url": "https://friendsnyc.com/products/squishmas-2026-advent-calendar.js",
+      "max_price": 45,
+      "enabled": true
+    },
+    {
+      "id": "needoh-calendar-therocket",
+      "name": "NeeDoh Squishmas Advent Calendar 2026 - The Rocket",
+      "product_url": "https://www.shoptherocket.com/products/needoh-squishmas-2026-avent-calendar",
+      "type": "shopify",
+      "check_url": "https://www.shoptherocket.com/products/needoh-squishmas-2026-avent-calendar.js",
+      "max_price": 45,
+      "enabled": true
+    },
+    {
+      "id": "needoh-calendar-simplygreenbaby",
+      "name": "NeeDoh Squishmas Advent Calendar 2026 - Simply Green Baby",
+      "product_url": "https://simplygreenbaby.com/products/schylling-needoh-advent-calendar-2026",
+      "type": "shopify",
+      "check_url": "https://simplygreenbaby.com/products/schylling-needoh-advent-calendar-2026.js",
+      "max_price": 45,
+      "enabled": true
+    },
+    {
+      "id": "topps-finest-mega-ehcards",
+      "name": "2026 Topps Finest Baseball Mega Box - EH Cards",
+      "product_url": "https://ehcards.com/products/2026-topps-finest-baseball-mega-box",
+      "type": "shopify",
+      "check_url": "https://ehcards.com/products/2026-topps-finest-baseball-mega-box.js",
+      "max_price": 100,
+      "enabled": true
+    }
   ]
 }
