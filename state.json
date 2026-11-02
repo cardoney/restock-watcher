@@ -39,6 +39,10 @@
     "since": "2026-10-26T04:34:08Z",
     "status": "out_of_stock"
   },
+  "needoh-calendar-friendsnyc": {
+    "since": "2026-11-02T03:44:42Z",
+    "status": "out_of_stock"
+  },
   "needoh-calendar-learningexpress-wilmington": {
     "since": "2026-10-26T04:00:49Z",
     "status": "out_of_stock"
@@ -47,9 +51,22 @@
     "since": "2026-10-26T04:34:08Z",
     "status": "out_of_stock"
   },
+  "needoh-calendar-simplygreenbaby": {
+    "since": "2026-11-02T03:44:42Z",
+    "status": "out_of_stock",
+    "unreadable_since": "2026-11-02T03:44:42Z"
+  },
+  "needoh-calendar-therocket": {
+    "since": "2026-11-02T03:44:42Z",
+    "status": "out_of_stock"
+  },
   "topps-finest-mega-dacardworld": {
     "since": "2026-10-23T18:04:29Z",
     "status": "out_of_stock"
+  },
+  "topps-finest-mega-ehcards": {
+    "since": "2026-11-02T03:44:42Z",
+    "status": "in_stock_over_max"
   },
   "topps-finest-mega-gamestop": {
     "since": "2026-10-26T04:34:08Z",
