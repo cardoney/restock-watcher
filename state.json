@@ -1,8 +1,7 @@
 {
   "banana-ball-box-official": {
     "since": "2026-10-21T18:02:40Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "banana-ball-box-official-search": {
     "since": "2026-10-26T04:34:08Z",
@@ -18,8 +17,7 @@
   },
   "dumdums-cream-soda-candywarehouse": {
     "since": "2026-10-26T03:54:13Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "dumdums-cream-soda-candywarehouse-search": {
     "since": "2026-10-26T04:34:08Z",
@@ -27,8 +25,7 @@
   },
   "dumdums-cream-soda-spangler": {
     "since": "2026-10-26T03:54:13Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "dumdums-cream-soda-spangler-search": {
     "since": "2026-10-26T04:34:08Z",
@@ -44,13 +41,11 @@
   },
   "needoh-calendar-friendsnyc": {
     "since": "2026-11-02T03:44:42Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "needoh-calendar-learningexpress-wilmington": {
     "since": "2026-10-26T04:00:49Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "needoh-calendar-learningexpress-wilmington-search": {
     "since": "2026-10-26T04:34:08Z",
@@ -63,8 +58,7 @@
   },
   "needoh-calendar-therocket": {
     "since": "2026-11-02T03:44:42Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "topps-finest-mega-dacardworld": {
     "since": "2026-10-23T18:04:29Z",
@@ -72,8 +66,7 @@
   },
   "topps-finest-mega-ehcards": {
     "since": "2026-11-14T14:59:00Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "topps-finest-mega-gamestop": {
     "since": "2026-10-26T04:34:08Z",
@@ -82,13 +75,11 @@
   },
   "topps-finest-mega-giant": {
     "since": "2026-11-10T21:27:45Z",
-    "status": "in_stock_over_max",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "in_stock_over_max"
   },
   "topps-finest-mega-giant-2": {
     "since": "2026-10-23T18:04:28Z",
-    "status": "out_of_stock",
-    "unreadable_since": "2026-11-19T07:58:21Z"
+    "status": "out_of_stock"
   },
   "topps-finest-mega-giant-search": {
     "since": "2026-10-26T04:34:08Z",
